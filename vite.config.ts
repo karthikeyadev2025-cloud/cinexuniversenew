@@ -3,14 +3,18 @@ import path from "path"
 const __dirname = import.meta.dirname
 import react from "@vitejs/plugin-react"
 import { defineConfig } from "vite"
-import { inspectAttr } from 'plugin-inspect-react-code'
+
+const isProduction = process.env.NODE_ENV === "production"
 
 // https://vite.dev/config/
 export default defineConfig({
   base: '/',
   plugins: [
-    devServer({ entry: "api/boot.ts", exclude: [/^\/(?!api\/).*$/] }),
-    inspectAttr(), react()],
+    // Only run dev server plugin in development — it triggers TypeScript
+    // checks on api/ files during build which fails on Vercel
+    !isProduction && devServer({ entry: "api/boot.ts", exclude: [/^\/(?!api\/).*$/] }),
+    react(),
+  ].filter(Boolean),
   server: {
     port: 3000,
   },
