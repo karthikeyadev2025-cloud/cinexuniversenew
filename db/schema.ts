@@ -365,7 +365,8 @@ export const apiConfigs = pgTable(
   })
 );
 
-/* ─── Payments ─── */
+export type ApiConfig = typeof apiConfigs.$inferSelect;
+export type InsertApiConfig = typeof apiConfigs.$inferInsert;
 export const payments = pgTable(
   "payments",
   {

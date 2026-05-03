@@ -1,10 +1,11 @@
 import type { Hono } from "hono";
-import type { HttpBindings } from "@hono/node-server";
 import { serveStatic } from "@hono/node-server/serve-static";
 import fs from "fs";
 import path from "path";
 
-type App = Hono<{ Bindings: HttpBindings }>;
+// Use a relaxed type so boot.ts's plain Hono instance is accepted
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type App = Hono<any, any, any>;
 
 export function serveStaticFiles(app: App) {
   const distPath = path.resolve(import.meta.dirname, "../dist");
